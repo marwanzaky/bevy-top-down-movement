@@ -7,7 +7,7 @@ pub fn transform(
     mut game: ResMut<Game>,
     mut transforms: Query<&mut Transform>,
 ) {
-    let movement = movement(keyboard_input);
+    let movement: Vec3 = movement(keyboard_input);
     let speed: f32 = 100.;
 
     if movement != Vec3::new(0., 0., 0.) {
