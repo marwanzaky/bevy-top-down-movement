@@ -7,43 +7,34 @@ pub fn get_animation(
     movement: &Vec3,
     indices: &mut AnimationIndices,
 ) -> Handle<TextureAtlas> {
-    let mut columns: usize = 1;
-    let mut path: &str= "hero-idle-front.png"; 
-    
-    *indices = AnimationIndices { first: 0, last: 0 };
+    let mut animation: Animation = Animation::IDLE;
 
     if movement.normalize().x > 0. {
-        path = "hero-walk-side.png";
-        columns = 6;
-        *indices = AnimationIndices { first: 0, last: 5 };
+        animation = Animation::WALK_RIGHT;
     }
 
     if movement.normalize().x < 0. {
-        path = "hero-walk-side-reverse.png";
-        columns = 6;
-        *indices = AnimationIndices { first: 0, last: 5 };
+        animation = Animation::WALK_LEFT;
     }
 
     if movement.normalize().y > 0. {
-        path = "hero-walk-back.png";
-        columns = 6;
-        *indices = AnimationIndices { first: 0, last: 5 };
+        animation = Animation::WALK_UP;
     }
 
     if movement.normalize().y < 0. {
-        path = "hero-walk-front.png";
-        columns = 6;
-        *indices = AnimationIndices { first: 0, last: 5 };
+        animation = Animation::WALK_DOWN;
     }
 
     let texture_atlas = TextureAtlas::from_grid(
-        asset_server.load(path),
+        asset_server.load(animation.path),
         Vec2::new(32.0, 32.0),
-        columns,
+        animation.columns,
         1,
         None,
         None,
     );
+
+    *indices = animation.indices;
 
     texture_atlases.add(texture_atlas)
 }
