@@ -9,7 +9,7 @@ pub struct Game {
 pub struct Player {
     pub entity: Option<Entity>,
     pub translation: Vec3,
-    pub animation_state: AnimationState,
+    pub movement: Vec3,
 }
 
 #[derive(Component)]
@@ -20,11 +20,3 @@ pub struct AnimationIndices {
 
 #[derive(Component, Deref, DerefMut)]
 pub struct AnimationTimer(pub Timer);
-
-// #[derive(Default)]
-#[derive(Default,PartialEq)]
-pub enum AnimationState {
-    #[default]
-    Idle,
-    Walk,
-}
