@@ -124,15 +124,10 @@ fn collect_coin(
             let dis = player_transform
                 .translation
                 .distance(coin_transform.translation);
-            println!("dis {}", dis);
 
             if dis <= collect_coin_dis {
                 commands.entity(coin_entity).despawn();
             }
         }
     }
-
-    // coin_query.for_each(|entity| {
-    //     commands.entity(entity).despawn();
-    // });
 }
