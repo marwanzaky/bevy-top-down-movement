@@ -13,6 +13,11 @@ pub struct Player {
     pub animation_kind: AnimationKind,
 }
 
+#[derive(Component)]
+pub struct Coin {
+    pub name: String,
+}
+
 #[derive(Component, Default)]
 pub struct AnimationIndices {
     pub first: usize,

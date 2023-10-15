@@ -28,21 +28,19 @@ pub fn transform(
 pub fn animation(
     time: Res<Time>,
     mut game: ResMut<Game>,
-    mut query: Query<(
-        &mut AnimationIndices,
-        &mut AnimationTimer,
-        &mut TextureAtlasSprite,
-        &mut Handle<TextureAtlas>,
-    )>,
+    mut query: Query<
+        (
+            &mut AnimationIndices,
+            &mut AnimationTimer,
+            &mut TextureAtlasSprite,
+            &mut Handle<TextureAtlas>,
+        ),
+        Without<Coin>,
+    >,
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     asset_server: Res<AssetServer>,
 ) {
-    for (
-        mut indices,
-        mut timer,
-        mut sprite,
-        mut texture
-    ) in &mut query {
+    for (mut indices, mut timer, mut sprite, mut texture) in &mut query {
         let animation: Animation = get_animation(&game.player.movement);
 
         *indices = animation.indices;
