@@ -174,7 +174,7 @@ fn collect_coin(
         ),
     >,
     player_query: Query<
-        (Entity, &Transform),
+        &Transform,
         (
             Without<Coin>,
             With<AnimationIndices>,
@@ -186,7 +186,7 @@ fn collect_coin(
 ) {
     let collect_coin_dis = 10.;
 
-    for (player_entity, player_transform) in &player_query {
+    for player_transform in &player_query {
         for (coin_entity, coin_transform) in &coin_query {
             let dis = player_transform
                 .translation
