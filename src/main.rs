@@ -15,7 +15,7 @@ fn main() {
         .init_resource::<Game>()
         .add_systems(Startup, setup)
         .add_plugins(GamePlugins)
-        .add_systems(Update, collect_coin)
+        .add_systems(Update, (coin_animation, collect_coin))
         .run();
 }
 
