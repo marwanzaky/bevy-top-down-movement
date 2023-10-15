@@ -27,7 +27,7 @@ pub fn transform(
 
 pub fn animation(
     time: Res<Time>,
-    game: ResMut<Game>,
+    mut game: ResMut<Game>,
     mut query: Query<(
         &mut AnimationIndices,
         &mut AnimationTimer,
@@ -38,18 +38,28 @@ pub fn animation(
     asset_server: Res<AssetServer>,
 ) {
     for (mut indices, mut timer, mut sprite, mut texture) in &mut query {
-        timer.tick(time.delta());
+        let animation: Animation = get_animation(&game.player.movement);
 
-        *texture = get_animation(
-            &mut texture_atlases,
-            &asset_server,
-            &game.player.movement,
-            &mut indices,
+        *indices = animation.indices;
+
+        let texture_atlas = TextureAtlas::from_grid(
+            asset_server.load(animation.path),
+            Vec2::new(32.0, 32.0),
+            animation.columns,
+            1,
+            None,
+            None,
         );
 
-        if sprite.index > indices.last {
-            sprite.index = 0;
+        *texture = texture_atlases.add(texture_atlas);
+
+        if game.player.animation_kind != animation.kind {
+            sprite.index = indices.first;
         }
+
+        game.player.animation_kind = animation.kind;
+
+        timer.tick(time.delta());
 
         if timer.just_finished() {
             sprite.index = if sprite.index == indices.last {

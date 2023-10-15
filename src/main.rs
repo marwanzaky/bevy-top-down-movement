@@ -6,7 +6,7 @@ mod prelude {
     pub use crate::systems::*;
 }
 
-use bevy::{prelude::*};
+use bevy::prelude::*;
 use prelude::*;
 
 fn main() {
