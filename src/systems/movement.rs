@@ -37,7 +37,12 @@ pub fn animation(
     mut texture_atlases: ResMut<Assets<TextureAtlas>>,
     asset_server: Res<AssetServer>,
 ) {
-    for (mut indices, mut timer, mut sprite, mut texture) in &mut query {
+    for (
+        mut indices,
+        mut timer,
+        mut sprite,
+        mut texture
+    ) in &mut query {
         let animation: Animation = get_animation(&game.player.movement);
 
         *indices = animation.indices;
