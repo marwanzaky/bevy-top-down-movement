@@ -115,7 +115,7 @@ fn spawn_coin(
     texture_atlases: &mut ResMut<Assets<TextureAtlas>>,
     translation: Vec3,
 ) {
-    let texture_handle = asset_server.load("coin.png");
+    let texture_handle = asset_server.load("sprites/coin.png");
     let texture_atlas =
         TextureAtlas::from_grid(texture_handle, Vec2::new(5.0, 7.0), 7, 1, None, None);
 

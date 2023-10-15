@@ -54,35 +54,35 @@ pub struct Animation {
 impl Animation {
     pub const IDLE: Animation = Animation {
         kind: AnimationKind::Idle,
-        path: "hero-idle-front.png",
+        path: "sprites/hero-idle-front.png",
         columns: 1,
         indices: AnimationIndices { first: 0, last: 0 },
     };
 
     pub const WALK_RIGHT: Animation = Animation {
         kind: AnimationKind::WalkRight,
-        path: "hero-walk-side.png",
+        path: "sprites/hero-walk-side.png",
         columns: 6,
         indices: AnimationIndices { first: 0, last: 5 },
     };
 
     pub const WALK_LEFT: Animation = Animation {
         kind: AnimationKind::WalkLeft,
-        path: "hero-walk-side-reverse.png",
+        path: "sprites/hero-walk-side-reverse.png",
         columns: 6,
         indices: AnimationIndices { first: 0, last: 5 },
     };
 
     pub const WALK_UP: Animation = Animation {
         kind: AnimationKind::WalkUp,
-        path: "hero-walk-back.png",
+        path: "sprites/hero-walk-back.png",
         columns: 6,
         indices: AnimationIndices { first: 0, last: 5 },
     };
 
     pub const WALK_DOWN: Animation = Animation {
         kind: AnimationKind::WalkDown,
-        path: "hero-walk-front.png",
+        path: "sprites/hero-walk-front.png",
         columns: 6,
         indices: AnimationIndices { first: 0, last: 5 },
     };
