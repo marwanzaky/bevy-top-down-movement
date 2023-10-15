@@ -37,10 +37,76 @@ fn setup(
             .id(),
     );
 
-    spawn_coin(&asset_server, &mut commands, &mut texture_atlases, Vec3 { x: 100., y: 0., z: 0. });
-    spawn_coin(&asset_server, &mut commands, &mut texture_atlases, Vec3 { x: -100., y: 0., z: 0. });
-    spawn_coin(&asset_server, &mut commands, &mut texture_atlases, Vec3 { x: 0., y: 50., z: 0. });
-    spawn_coin(&asset_server, &mut commands, &mut texture_atlases, Vec3 { x: 0., y: -50., z: 0. });
+    spawn_coin(
+        &asset_server,
+        &mut commands,
+        &mut texture_atlases,
+        Vec3 {
+            x: 100.,
+            y: 0.,
+            z: 0.,
+        },
+    );
+    spawn_coin(
+        &asset_server,
+        &mut commands,
+        &mut texture_atlases,
+        Vec3 {
+            x: -100.,
+            y: 0.,
+            z: 0.,
+        },
+    );
+    spawn_coin(
+        &asset_server,
+        &mut commands,
+        &mut texture_atlases,
+        Vec3 {
+            x: 0.,
+            y: 50.,
+            z: 0.,
+        },
+    );
+    spawn_coin(
+        &asset_server,
+        &mut commands,
+        &mut texture_atlases,
+        Vec3 {
+            x: 0.,
+            y: -50.,
+            z: 0.,
+        },
+    );
+
+    spawn_coin_text(&mut commands);
+}
+
+fn spawn_coin_text(commands: &mut Commands) {
+    commands.spawn((
+        // Create a TextBundle that has a Text with a list of sections.
+        TextBundle::from_sections([
+            TextSection::new(
+                "Coins: ",
+                TextStyle {
+                    font_size: 60.0,
+                    color: Color::WHITE,
+                    ..default()
+                },
+            ),
+            TextSection::new(
+                "0",
+                TextStyle {
+                    font_size: 60.0,
+                    color: Color::GOLD,
+                    ..default()
+                },
+            ),
+        ]),
+        CoinText {
+            text: "0".to_string(),
+            total: 0,
+        },
+    ));
 }
 
 fn spawn_coin(
@@ -116,6 +182,7 @@ fn collect_coin(
             With<TextureAtlasSprite>,
         ),
     >,
+    mut coin_text_query: Query<(&mut Text, &mut CoinText), With<CoinText>>,
 ) {
     let collect_coin_dis = 10.;
 
@@ -127,6 +194,11 @@ fn collect_coin(
 
             if dis <= collect_coin_dis {
                 commands.entity(coin_entity).despawn();
+
+                for  (mut text, mut coin_text) in &mut coin_text_query {
+                    coin_text.total = coin_text.total + 1;
+                    text.sections[1].value = coin_text.total.to_string();
+                }
             }
         }
     }

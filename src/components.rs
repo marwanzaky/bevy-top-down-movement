@@ -18,6 +18,12 @@ pub struct Coin {
     pub name: String,
 }
 
+#[derive(Component)]
+pub struct CoinText {
+    pub text: String,
+    pub total: i32,
+}
+
 #[derive(Component, Default)]
 pub struct AnimationIndices {
     pub first: usize,
