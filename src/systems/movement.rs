@@ -9,16 +9,12 @@ pub fn transform(
     mut game: ResMut<Game>,
     mut transforms: Query<&mut Transform>,
 ) {
-    let movement: Vec3 = movement(keyboard_input);
+    let direction: Vec3 = get_direction(keyboard_input);
     let speed: f32 = 100.;
 
-    if movement != Vec3::new(0., 0., 0.) {
-        game.player.translation += movement.normalize() * speed * time.delta_seconds();
-        game.player.movement = movement;
-    } else {
-        game.player.movement = Vec3::new(0., 0., 0.);
-    }
-
+    game.player.translation += direction * speed * time.delta_seconds();
+    game.player.direction = direction;
+    
     *transforms.get_mut(game.player.entity.unwrap()).unwrap() = Transform {
         translation: game.player.translation,
         ..default()
@@ -41,7 +37,7 @@ pub fn animation(
     asset_server: Res<AssetServer>,
 ) {
     for (mut indices, mut timer, mut sprite, mut texture) in &mut query {
-        let animation: Animation = get_animation(&game.player.movement);
+        let animation: Animation = get_animation(&game.player.direction);
 
         *indices = animation.indices;
 
@@ -74,24 +70,28 @@ pub fn animation(
     }
 }
 
-fn movement(keyboard_input: Res<Input<KeyCode>>) -> Vec3 {
-    let mut movement: Vec3 = Vec3::new(0., 0., 0.);
+fn get_direction(keyboard_input: Res<Input<KeyCode>>) -> Vec3 {
+    let mut direction: Vec3 = Vec3::ZERO;
 
     if keyboard_input.pressed(KeyCode::Right) || keyboard_input.pressed(KeyCode::D) {
-        movement.x += 1.;
+        direction.x += 1.;
     }
 
     if keyboard_input.pressed(KeyCode::Left) || keyboard_input.pressed(KeyCode::A) {
-        movement.x -= 1.;
+        direction.x -= 1.;
     }
 
     if keyboard_input.pressed(KeyCode::Up) || keyboard_input.pressed(KeyCode::W) {
-        movement.y += 1.;
+        direction.y += 1.;
     }
 
     if keyboard_input.pressed(KeyCode::Down) || keyboard_input.pressed(KeyCode::S) {
-        movement.y -= 1.;
+        direction.y -= 1.;
     }
 
-    movement
+    if direction.length() > 0. {
+        return direction.normalize()
+    }
+
+    direction
 }

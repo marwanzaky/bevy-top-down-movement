@@ -9,7 +9,7 @@ pub struct Game {
 pub struct Player {
     pub entity: Option<Entity>,
     pub translation: Vec3,
-    pub movement: Vec3,
+    pub direction: Vec3,
     pub animation_kind: AnimationKind,
 }
 
