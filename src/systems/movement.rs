@@ -3,6 +3,8 @@ use bevy::prelude::*;
 
 use super::animation::get_animation;
 
+pub const PLAYER_SPEED: f32 = 100.;
+
 pub fn transform(
     keyboard_input: Res<Input<KeyCode>>,
     time: Res<Time>,
@@ -10,11 +12,10 @@ pub fn transform(
     mut transforms: Query<&mut Transform>,
 ) {
     let direction: Vec3 = get_direction(keyboard_input);
-    let speed: f32 = 100.;
 
-    game.player.translation += direction * speed * time.delta_seconds();
+    game.player.translation += direction * PLAYER_SPEED * time.delta_seconds();
     game.player.direction = direction;
-    
+
     *transforms.get_mut(game.player.entity.unwrap()).unwrap() = Transform {
         translation: game.player.translation,
         ..default()
@@ -90,7 +91,7 @@ fn get_direction(keyboard_input: Res<Input<KeyCode>>) -> Vec3 {
     }
 
     if direction.length() > 0. {
-        return direction.normalize()
+        return direction.normalize();
     }
 
     direction
